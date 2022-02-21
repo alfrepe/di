@@ -156,6 +156,9 @@ class Informes():
             codfac = var.ui.lblNumfac.text()
             var.cv.drawString(255, 690, textotitulo + ': ' + str(codfac))
             var.cv.line(40, 685, 530, 685)
+            var.cv.setFont('Helvetica-Bold',size=9)
+            var.cv.drawString(270,785,'DATOS CLIENTES')
+            query1 = QtSql.QSqlQuery()
             items = ['Venta', 'Artículo', 'Precio', 'Cantidad', 'Total']
             var.cv.drawString(60, 675, items[0])
             var.cv.drawString(150, 675, items[1])

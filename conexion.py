@@ -1,3 +1,6 @@
+import os
+import sqlite3
+
 from PyQt5 import QtSql, QtWidgets, Qt
 import conexion, events, products
 import invoice
@@ -7,7 +10,13 @@ import locale
 locale.setlocale( locale.LC_ALL, '' )
 
 class Conexion():
+
     def db_connect(filedb):
+        """
+
+        :return:
+        :rtype:
+        """
         try:
             db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
             db.setDatabaseName(filedb)
@@ -558,9 +567,10 @@ class Conexion():
             while query2.next():
                 return query2.value(0)
         return ''
-    def cargarLineasVenta(codfac):
+    def cargarLineasVenta():
         try:
             subtotal = 0.0
+            codfac = var.ui.lblNumfac.text()
             #var.ui.tabVentas.clearContents()
             index = 0
             query2 = QtSql.QSqlQuery()
@@ -602,6 +612,7 @@ class Conexion():
             query = QtSql.QSqlQuery()
             query.prepare('delete from ventas where codventa = :codventa')
             query.bindValue(':codventa', int(codventa))
+            #codfac = 0
             if query.exec_():
                 while query.next():
                     msg1 = QtWidgets.QMessageBox()
@@ -609,8 +620,11 @@ class Conexion():
                     msg1.setIcon(QtWidgets.QMessageBox.Information)
                     msg1.text('Venta eliminada')
                     msg1.exec()
-            codfac = var.ui.lblNumfac.text()
-            Conexion.cargarLineasVenta(codfac)
+                    print(var.ui.lblNumfac.text())
+
+                    #Conexion.cargarLineasVenta(codfac)
+            Conexion.cargarLineasVenta()
+
         except Exception as error:
             print('error en baja venta en conexion ', error)
 
@@ -630,10 +644,52 @@ class Conexion():
                 var.ui.lblNomfac.setText(nombre)
 
             invoice.Facturas.cargarLineaVenta(self)
-            conexion.Conexion.cargarLineasVenta(str(var.ui.lblNumfac.text()))
+            conexion.Conexion.cargarLineasVenta()
 
         except Exception as error:
             print('error alta en factura', error)
+
+    def delVentaFac(codfac):
+        try:
+            ventas = []
+            query = QtSql.QSqlQuery()
+            query.prepare('select codventa from ventas where codfac=:numfac')
+            query.bindValue(':numfac', codfac)
+            if query.exec_():
+                while query.next():
+                    ventas.append(query.value(0))
+            for dato in ventas:
+                query1 = QtSql.QSqlQuery()
+                query1.prepare('delete from ventas where codventa = :dato')
+                query1.bindValue(':dato',int(dato))
+                if query1.exec_():
+                    var.ui.tabVentas.clearContent()
+                    var.ui.lblIva.setText('')
+                    var.ui.lblSubtotal.setTYext('')
+                    var.ui.lblTotalCalculo.setText('')
+        except Exception as e:
+            print(e)
+
+    def create_DB(filename):
+        try:
+            con = sqlite3.connect(database=filename)
+            cur = con.cursor()
+            con.execute(
+                'CREATE TABLE IF NOT EXISTS articulos(codigo INTEGER,nombre TEXT,precio NUMERIC, PRIMARY KEY(codigo AUTOINCREMENT));)')
+            con.execute('CREATE TABLE IF NOT EXISTS clientes(dni TEXT NOT NULL, alta TEXT, apellidos TEXT NOT NULL,'
+                        ' nombre TEXT, direccion TEXT, provincia TEXT, municipio TEXT, sexo TEXT, pago TEXT, envio INTEGER, PRIMARY KEY(dni)))')
+
+            con.commit()
+            con.close()
+            '''Creacion de Directorios'''
+            if not os.path.exists('.\\informes'):
+                os.mkdir('.\\informes')
+        except Exception as error:
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle('Aviso')
+            msg.setIcon(QtWidgets.QMessageBox.Information)
+            msg.setText('Error al crear la BD')
+            msg.exec_()
 
 
 

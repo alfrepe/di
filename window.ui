@@ -994,8 +994,8 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>img/impresora.png</normaloff>img/impresora.png</iconset>
+        <iconset resource="img/impresora.qrc">
+         <normaloff>:/newPrefix/impresora.png</normaloff>:/newPrefix/impresora.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1256,8 +1256,8 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
            <string/>
           </property>
           <property name="icon">
-           <iconset>
-            <normaloff>img/calendar.jpg</normaloff>img/calendar.jpg</iconset>
+           <iconset resource="img/calendar.qrc">
+            <normaloff>:/newPrefix/calendar.jpg</normaloff>:/newPrefix/calendar.jpg</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -2357,8 +2357,8 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>img/abrircarpeta.png</normaloff>img/abrircarpeta.png</iconset>
+    <iconset resource="img/carpeta.qrc">
+     <normaloff>:/newPrefix/abrircarpeta.png</normaloff>:/newPrefix/abrircarpeta.png</iconset>
    </property>
    <property name="text">
     <string>barabrirdirectorio</string>
@@ -2420,14 +2420,17 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
  </widget>
  <resources>
   <include location="img/lupa.qrc"/>
+  <include location="img/impresora.qrc"/>
+  <include location="img/carpeta.qrc"/>
+  <include location="img/calendar.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="rbtGroupSex"/>
   <buttongroup name="chkGroupPago">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="rbtGroupSex"/>
  </buttongroups>
 </ui>

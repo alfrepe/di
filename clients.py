@@ -9,6 +9,7 @@ from windowaviso import *
 import var
 
 class Clientes():
+
     def validarDNI():
         try:
             global dnivalido
@@ -42,6 +43,9 @@ class Clientes():
             print('Error en módulo validar DNI', error)
 
     def cargarFecha(qDate):
+        """
+
+        """
         try:
             data = (str(qDate.day()).zfill(2) + '/' + str(qDate.month()).zfill(2) + '/' + str(qDate.year()))
             if var.ui.tabPrograma.currentIndex() == 0:
