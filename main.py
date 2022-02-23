@@ -49,7 +49,7 @@ class Main(QtWidgets.QMainWindow):
         super(Main, self).__init__()
         var.ui = Ui_window()
         var.ui.setupUi(self)
-        conexion.Conexion.create_DB(var.filedb)
+        conexion.Conexion.create_db(var.filedb)
         '''
         Eventos de botón
         '''
@@ -90,6 +90,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.txtNome.editingFinished.connect(clients.Clientes.letraCapital)
         var.ui.txtDir.editingFinished.connect(clients.Clientes.letraCapital)
         var.txtCantidad = QtWidgets.QLineEdit()
+        var.txtCantidad.editingFinished.connect(invoice.Facturas.totalLineaVenta)
 
 
         '''
@@ -105,11 +106,11 @@ class Main(QtWidgets.QMainWindow):
         var.ui.tabProd.clicked.connect(products.Productos.cargaPro)
         var.ui.tabProd.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)
         #var.ui.tabFacturas.clicked.connect(invoice.Facturas.cargaFac)
-        var.ui.tabFacturas.clicked.connect(conexion.Conexion.cargaFac)
+        var.ui.tabFacturas.clicked.connect(invoice.Facturas.cargaFac)
         var.ui.tabProd.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)
         var.ui.tabVentas.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)
         #invoice.Facturas.prepararTabFac(self)
-        invoice.Facturas.cargarLineaVenta(self)
+        invoice.Facturas.cargarLineaVenta(0)
 
 
 
@@ -117,7 +118,7 @@ class Main(QtWidgets.QMainWindow):
         Base de datos
         '''
         conexion.Conexion.db_connect(var.filedb)
-        conexion.Conexion.cargarTabCli(self)
+        conexion.Conexion.cargarTabCli()
         conexion.Conexion.cargarTabPro(self)
         conexion.Conexion.cargaTabfacturas(self)
 
@@ -125,7 +126,7 @@ class Main(QtWidgets.QMainWindow):
         Eventos combobox
         '''
         conexion.Conexion.cargaProv(self)
-        var.ui.cmbProv.currentIndexChanged.connect(conexion.Conexion.selMuni)
+        var.ui.cmbProv.currentIndexChanged.connect(conexion.Conexion.cargaMuni)
         conexion.Conexion.cargarCmbProducto(self)
 
 

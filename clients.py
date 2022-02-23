@@ -16,11 +16,11 @@ class Clientes():
             dnivalido= False
             dni = var.ui.txtDNI.text()
             var.ui.txtDNI.setText(dni.upper())
-            tabla = 'TRWAGMYFPDXBNJZSQVHLCKE'  #letras dni
-            dig_ext = 'XYZ'                     #digito
+            tabla = 'TRWAGMYFPDXBNJZSQVHLCKE'  # letras dni
+            dig_ext = 'XYZ' # digito
             reemp_dig_ext = { 'X': '0', 'Y': '1', 'Z': '2' }
             numeros = '1234567890'
-            dni = dni.upper()  #conver la letra mayúsculas
+            dni = dni.upper()  # conver la letra mayúsculas
             if len(dni) == 9:
                 dig_control = dni[8]
                 dni = dni[:8]

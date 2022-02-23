@@ -118,6 +118,11 @@ class Eventos():
             print('Error Abrir Ventana Impresora')
 
     def importaDatos(self):
+        """
+
+        Módulo que importa desde una hoja de excel, los datos de los clientes a la bd
+
+        """
         try:
             option = QtWidgets.QFileDialog.Options()
             filename = var.dlgabrir.getOpenFileName(None, 'Importar Datos', '', '*.xls;;All Files',
@@ -129,15 +134,12 @@ class Eventos():
                 filas = datos.nrows
                 columnas = datos.ncols
                 newcli = []
-                for i in range(filas):
-                    if i == 0:
-                        pass
-                    else:
-                        newcli = []
-                        for j in range(9):
-                            newcli.append(str(datos.cell_value(i,j)))
-                            if conexion.Conexion.comprobardni(newcli[0]):
-                                conexion.Conexion.altaCliexcel(newcli)
+                for i in range(1,filas):
+                    newcli = []
+                    for j in range(9):
+                        newcli.append(str(datos.cell_value(i,j)))
+                        if conexion.Conexion.comprobardni(newcli[0]):
+                            conexion.Conexion.altaCliexcel(newcli)
                 conexion.Conexion.cargarTabCli(self)
                 msg = QtWidgets.QMessageBox()
                 msg.setModal(True)
@@ -152,6 +154,11 @@ class Eventos():
             print('error cargar datos', error)
 
     def exportarDatos(self):
+        """
+
+        Módulo que exporta a una hoja de excel los datos de todos los clientes
+
+        """
         try:
             fecha = datetime.today()
             fecha = fecha.strftime('%Y.%m.%d.%H.%M.%S')

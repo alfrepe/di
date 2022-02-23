@@ -1,3 +1,4 @@
+import csv
 import os
 import sqlite3
 
@@ -11,12 +12,82 @@ locale.setlocale( locale.LC_ALL, '' )
 
 class Conexion():
 
+    def create_db(filename):
+        """
+
+        Crea los directorios necesarios
+        :rtype: String nombre fichero
+        Recibe el nombre de la base de datos
+
+        """
+        try:
+            con = sqlite3.connect(database=filename)
+            cur = con.cursor()
+            cur.execute(
+                'CREATE TABLE if not exists clientes (dni	TEXT NOT NULL, alta	TEXT, apellidos	TEXT, nombre TEXT, direccion TEXT, '
+                'provincia	TEXT, municipio	NUMERIC, sexo	TEXT, pago	TEXT, envio	INTEGER, PRIMARY KEY(dni))')
+            con.commit()
+
+            cur.execute(
+                "CREATE TABLE if not exists facturas (codigo	INTEGER NOT NULL, dni	TEXT NOT NULL, fechafac	TEXT NOT NULL, "
+                "PRIMARY KEY(codigo AUTOINCREMENT), FOREIGN KEY(dni) REFERENCES clientes(dni) on delete cascade)")
+            con.commit()
+
+            cur.execute(
+                "CREATE TABLE if not exists municipios (provincia_id	INTEGER NOT NULL, municipio	TEXT NOT NULL, "
+                "id	INTEGER NOT NULL, PRIMARY KEY(id))")
+            con.commit()
+
+            cur.execute("CREATE TABLE if not exists productos (codigo	INTEGER NOT NULL, nombre	TEXT, "
+                        "precio	NUMERIC, PRIMARY KEY(codigo))")
+            con.commit()
+
+            cur.execute(
+                "CREATE TABLE if not exists provincias (id INTEGER NOT NULL, provincia	TEXT NOT NULL UNIQUE, PRIMARY KEY(id))")
+            con.commit()
+
+            cur.execute(
+                "CREATE TABLE if not exists ventas (codventa INTEGER NOT NULL, codfac INTEGER NOT NULL, codprod	INTEGER NOT NULL, "
+                "cantidad REAL, precio	REAL NOT NULL, FOREIGN KEY(codfac) REFERENCES facturas(codigo), "
+                "FOREIGN KEY(codprod) REFERENCES productos(codigo), PRIMARY KEY (codventa AUTOINCREMENT))")
+            con.commit()
+
+            cur.execute('select count() from provincias')
+            numero = cur.fetchone()[0]
+            con.commit()
+
+            if int(numero) == 0:
+                print()
+                with open('provincias.csv', 'r', encoding="utf-8") as fin:
+                    dr = csv.DictReader(fin)
+                    to_db = [(i['id'], i['provincia']) for i in dr]
+                cur.executemany('insert into provincias (id, provincia) VALUES (?,?);', to_db)
+                con.commit()
+            con.close()
+
+            # Creación de directorios
+            if not os.path.exists('.\\informes'):
+                os.mkdir('.\\informes')
+            if not os.path.exists('.\\img'):
+                os.mkdir('.\\img')
+            if not os.path.exists('.\\copias'):
+                os.mkdir('.\\copias')
+
+        except Exception as error:
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle('Aviso')
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText(str(error))
+            msg.exec()
+
     def db_connect(filedb):
         """
 
-        :return:
-        :rtype:
-        """
+       Realiza la conexión con la base de datos al ejecutar el programa
+       :rtype: boolean
+       Recibe: String
+
+       """
         try:
             db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
             db.setDatabaseName(filedb)
@@ -31,24 +102,17 @@ class Conexion():
         except Exception as error:
             print('Problemas en conexion ', error)
     '''
-    Módulos gestión base datos cliente
+    Módulos gestión db clientes
     '''
-    def existeDni(dni):
-        try:
-            signal = True
-            query = QtSql.QSqlQuery()
-            query.prepare('select dni from clientes')
-            if query.exec_():
-                while query.next():
-                    if str(dni) == str(query.value(0)):
-                        signal == False
-            return True
-
-        except Exception as error:
-            print('Problemas con dni repetido:', error)
 
 
     def altaCli(newcli):
+        """
+
+        Módulo que busca el DNI en la base de datos
+        :rtype: boolean, True si existe
+
+        """
         try:
             query = QtSql.QSqlQuery()
             #var = Conexion.comprobardni
@@ -82,9 +146,13 @@ class Conexion():
             print('Problemas en altaCliente', error)
 
     def altaCliexcel(newcli):
+        """
+
+        Módulo que se ejecuta para insertar un cliente en la bd cuando importamos desde una hoja de cálculo excel
+
+        """
         try:
             query = QtSql.QSqlQuery()
-            #var = Conexion.comprobardni
             if var:
                 query.prepare('insert into clientes (dni, alta, apellidos, nombre, direccion, provincia, municipio,'
                               'sexo, pago, envio) VALUES (:dni, :alta, :apellidos, :nombre, :direccion, :provincia, :municipio,'
@@ -101,11 +169,16 @@ class Conexion():
                 query.bindValue(':envio', int(newcli[9]))
                 if query.exec_():
                     print("Inserción Correcta")
-                Conexion.mostrarClientes(None)
+                #Conexion.mostrarClientes(None)
         except Exception as error:
             print('Problemas en altaCliente', error)
 
     def bajaCli(dni):
+        """
+
+       Módulo que recibe DNI cliente y lo elimina de la BD
+
+       """
         try:
             query = QtSql.QSqlQuery()
             query.prepare('delete from clientes where dni = :dni')
@@ -126,7 +199,12 @@ class Conexion():
         except Exception as error:
             print("Error baja cliente en conexion ", error)
 
-    def cargarTabCli(self):
+    def cargarTabCli():
+        """
+
+       Módulo que toma datos de los clientes y los carga en la tabla de la ui
+
+       """
         try:
 
             index = 0
@@ -151,6 +229,13 @@ class Conexion():
 
 
     def oneCli(dni):
+        """
+
+       Módulo que selecciona un cliente y lo devuelve a su función cargaCli del fichero clientes
+       :return: Lista
+       :rtype: Object
+
+       """
         try:
             record = []
             query = QtSql.QSqlQuery()
@@ -167,6 +252,13 @@ class Conexion():
             print('Problemas devolver cliente marcado', error)
 
     def cargaProv(self):
+        """
+
+        Módulo que carga las provincias en el combo de la interfaz gráfica del panel clientes
+        :return:
+        :rtype:
+
+        """
         try:
             var.ui.cmbProv.clear()
             query = QtSql.QSqlQuery()
@@ -178,10 +270,16 @@ class Conexion():
         except Exception as error:
             print('Problemas cargar combo ', error)
 
-    def selMuni(self):
+
+    def cargaMuni(self):
+        """
+
+       Módulo que carga municipios dada una provincia y los carga en el panel clientes
+
+       """
         try:
             #busco el código de la provincia
-            id = 0
+            id_prov = 0
             var.ui.cmbMuni.clear()
             prov = var.ui.cmbProv.currentText()
             query = QtSql.QSqlQuery()
@@ -189,11 +287,11 @@ class Conexion():
             query.bindValue(':prov', str(prov))
             if query.exec_():
                 while query.next():
-                    id = query.value(0)
+                    id_prov = query.value(0)
             #cargo los municipios con ese código
             query1 = QtSql.QSqlQuery()
             query1.prepare('select municipio from municipios where provincia_id = :id')
-            query1.bindValue(':id', int(id))
+            query1.bindValue(':id', int(id_prov))
             if query1.exec_():
                 var.ui.cmbMuni.addItem('')
                 while query1.next():
@@ -203,6 +301,11 @@ class Conexion():
             print('Problemas cargar combo municipio ', error)
 
     def modifCli(modcliente):
+        """
+
+       Módulo que recibe los datos del cliente a modificar y los guarda en la BD
+
+       """
         try:
             query = QtSql.QSqlQuery()
             query.prepare('update clientes set alta =:alta, apellidos = :apellidos, nombre = :nombre, '
@@ -236,6 +339,12 @@ class Conexion():
 
 
     def comprobardni(dni):
+        """
+
+        Método que recibe el dni de un cliente y comprueba si está en la bd
+        :rtype: bool
+
+        """
         try:
             var.msg = True
             query = QtSql.QSqlQuery()
@@ -251,6 +360,11 @@ class Conexion():
             print('Problemas comprobar dni ', error)
 
     def buscaClie(dni):
+        """
+
+        Módulo que se ejecuta con el botón busca. Devuelve datos del cliente para el panel facturación
+
+        """
         try:
             if dni != '':
                 registro = []
@@ -272,8 +386,8 @@ class Conexion():
 
                 return registro
             else:
-                self = 0
-                Conexion.cargarTabCli(self)
+                #self = 0
+                Conexion.cargarTabCli()
         except Exception as error:
             print('Búsqueda de un cliente: ', error)
 
@@ -282,6 +396,11 @@ class Conexion():
     '''
 
     def altaProd(registro):
+        """
+
+        Módulo que recibe un producto y lo guarda en la BD
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare('insert into productos (producto, precio) VALUES '
@@ -300,6 +419,10 @@ class Conexion():
 
 
     def cargarTabPro(self):
+        """
+       Módulo que recorre la tabla productos de la BD para isertarlos en la tabla de la interfaz gráfica
+
+       """
         try:
             index = 0
             query = QtSql.QSqlQuery()
@@ -320,6 +443,11 @@ class Conexion():
             print('Problemas mostrar tabla productos', error)
 
     def bajaProd(cod):
+        """
+
+        Módulo que recibe el codigo de un producto y lo busca en la BD para eliminarlo
+        :rtype:
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare('delete from productos where codigo = :cod')
@@ -341,6 +469,12 @@ class Conexion():
             print("Error baja cliente en conexion ", error)
 
     def modifPro(modpro):
+        """
+
+        Módulo que recibe los datos del producto a modificar y los guarda en la BD
+        :rtype:
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare('update productos set producto =:producto, precio = :precio where codigo = :cod')
@@ -370,6 +504,11 @@ class Conexion():
             print('Error modificar producto en conexion: ', error)
 
     def buscaPro(producto):
+        """
+
+        Módulo que recibe el nombre de un producto para buscarlo en la BD
+
+        """
         try:
             if producto != '':
                 registro = []
@@ -392,18 +531,25 @@ class Conexion():
                         var.ui.tabProd.item(0, 2).setTextAlignment(QtCore.Qt.AlignRight)
                         var.ui.tabProd.item(0, 0).setTextAlignment(QtCore.Qt.AlignCenter)
             else:
-                self = 0
-                Conexion.cargarTabPro(self)
+                #self = 0
+                Conexion.cargarTabPro(self=None)
             return registro
 
         except Exception as error:
             print('Error en búsqueda producto: ', error)
 
     '''
-    Gestión Facturación
+    gestión facturación
     '''
 
     def buscaClifac(dni):
+        """
+
+        Busca los datos del cliente a facturar
+        :return: Datos cliente a facturar
+        :rtype: Object
+
+        """
         try:
             registro = []
             query = QtSql.QSqlQuery()
@@ -418,6 +564,11 @@ class Conexion():
             print('error en conexión buscar cliente', error)
 
     def altaFac(registro):
+        """
+
+        Dado el cliente a facturar se da de alta una factura en la BD a nombre de ese cliente
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare('insert into facturas (dnifac, fechafac) VALUES (:dni, :fecha)')
@@ -439,7 +590,12 @@ class Conexion():
             print('Error en conexión alta fac', error)
 
     def cargaTabfacturas(self):
+        """
 
+        Módulo que se ejecuta siempre cada vez que se da de alta/baja/modificar una factura
+        recargando en el panel de gestión de facturación la tabla factura
+
+        """
         try:
             var.ui.tabFacturas.clearContents()
             index = 0
@@ -469,18 +625,32 @@ class Conexion():
             print('Error en carga listado facturas ', error)
 
     def buscaDNIFac(numfac):
+        """
+
+        Módulo que busca del DNI de la tabla facturas en la BD
+        :return: DNI
+        :rtype: String
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare('select dnifac from facturas where codigo = :numfac')
             query.bindValue(':numfac', int(numfac))
             if query.exec_():
                 while query.next():
-                    dni  = query.value(0)
+                    dni = query.value(0)
             return dni
         except Exception as error:
             print('Error en carga listado facturas ', error)
 
     def bajaFac(self):
+        """
+
+        Módulo que dado el número factura, la da de baja.
+        Además llama al módulo borrar ventas para que elimine todas las ventas asociadas a esa factura de
+        la tabla ventas de la BD
+
+        """
         try:
 
             numfac = var.ui.lblNumfac.text()
@@ -504,6 +674,11 @@ class Conexion():
             print('Error módulo baja factura', error)
 
     def cargarCmbProducto(self):
+        """
+
+        Módulo que toma los datos de los nombres de los productos de la BD  y los carga en el panel de la tabla ventas
+
+        """
         try:
             var.cmbProducto.clear()
             query = QtSql.QSqlQuery()
@@ -516,6 +691,13 @@ class Conexion():
             print(e)
 
     def obtenerCodPrecio(articulo):
+        """
+
+        Módulo que dado el nombre del producto obtiene el precio
+        :return: Precio
+        :rtype: list
+
+        """
         try:
             dato = []
             query = QtSql.QSqlQuery()
@@ -532,6 +714,11 @@ class Conexion():
             print(e)
 
     def cargarVenta(venta):
+        """
+
+        Carga el registro de una venta realizada en la tabla ventas de la BD
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare('insert into ventas (codfac,codpro,precio,cantidad) values '
@@ -542,12 +729,21 @@ class Conexion():
             query.bindValue(':cantidad', float(venta[3]))
             if query.exec_():
                 var.ui.lblVenta.setText('venta realizada')
+                var.ui.lblVenta.setStyleSheet('QLabel {color: green;}')
+                Conexion.cargarLineasVenta(venta[0])
             else:
                 var.ui.lblVenta.setStyleSheet('Qlabel {color: red;}')
                 var.ui.lblVenta.setText('error venta')
         except Exception as e:
             print(e)
     def buscaCodfac(self):
+        """
+
+        Módulo que selecciona el código de la factura con número más alto
+        :return: Numero factura
+        :rtype: int
+
+        """
         try:
             query = QtSql.QSqlQuery()
             dato = ''
@@ -560,6 +756,13 @@ class Conexion():
             print(e)
 
     def buscaArt(cod):
+        """
+
+        Módulo que busca el código de un artículo para usarlo en las ventas
+        :return: Nombre del artículo
+        :rtype: String
+
+        """
         query2 = QtSql.QSqlQuery()
         query2.prepare('select producto from productos where codigo = :codpro')
         query2.bindValue(':codpro', int(cod))
@@ -567,17 +770,23 @@ class Conexion():
             while query2.next():
                 return query2.value(0)
         return ''
-    def cargarLineasVenta():
+
+    def cargarLineasVenta(codfac):
+        """
+
+        Módulo que carga todas las ventas asociadas a una factura en la interfaz gráfica
+
+        """
         try:
             subtotal = 0.0
-            codfac = var.ui.lblNumfac.text()
-            #var.ui.tabVentas.clearContents()
+            var.ui.tabVentas.clearContents()
             index = 0
             query2 = QtSql.QSqlQuery()
             query = QtSql.QSqlQuery()
             query.prepare('select codventa,precio,cantidad,codpro from ventas where codfac = :codfac')
 
             query.bindValue(':codfac', int(codfac))
+            invoice.Facturas.cargarLineaVenta(0)
             row = col = 0
             if query.exec_():
                 while query.next():
@@ -598,58 +807,48 @@ class Conexion():
                     var.ui.tabVentas.setItem(index, col + 4, QtWidgets.QTableWidgetItem(str(total_venta)))
                     var.ui.tabVentas.item(index, 0).setTextAlignment(QtCore.Qt.AlignCenter)
                     index = index + 1
+
             iva = subtotal * .21
             var.ui.lblSubtotalCalculo.setText(str(round(subtotal,2)))
             var.ui.lblIVAcalculo.setText(str(round(iva, 2)))
             var.ui.lblTotalCalculo.setText(str(round(iva+subtotal, 2)))
         except Exception as error:
-            print('error cargar las lines de factura', error)
+            print('error cargar las lineas de factura', error)
+
 
     def borraVenta(self):
+        """
+
+        Módulo que elimina una venta de una factura
+
+        """
         try:
-            row = var.ui.tabVentas.currentRow()
-            codventa = var.ui.tabVentas.item(row, 0).text()
+            row = var.ui.tabVentas.selectedItems()
+            codVenta = row[0].text()
             query = QtSql.QSqlQuery()
             query.prepare('delete from ventas where codventa = :codventa')
-            query.bindValue(':codventa', int(codventa))
-            #codfac = 0
+            query.bindValue(':codventa', int(codVenta))
             if query.exec_():
-                while query.next():
-                    msg1 = QtWidgets.QMessageBox()
-                    msg1.setWindowTitle('Aviso')
-                    msg1.setIcon(QtWidgets.QMessageBox.Information)
-                    msg1.text('Venta eliminada')
-                    msg1.exec()
-                    print(var.ui.lblNumfac.text())
-
-                    #Conexion.cargarLineasVenta(codfac)
-            Conexion.cargarLineasVenta()
+                invoice.Facturas.cargaFac(self)
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Information)
+                msg.setText('Venta eliminada')
+                msg.exec()
 
         except Exception as error:
-            print('error en baja venta en conexion ', error)
+            print('Error al borrar una venta ', error)
 
-    def cargaFac(self):
-        try:
-            fila = var.ui.tabFacturas.selectedItems()  # seleccionamos la fila
-            datos = [var.ui.lblNumfac, var.ui.txtFechafac]
-            if fila:  # cargamos en row todos los datos de la fila
-                row = [dato.text() for dato in fila]
-            for i, dato in enumerate(datos):
-                dato.setText(row[i])
-            dni = conexion.Conexion.buscaDNIFac(row[0])
-            var.ui.txtDNIfac.setText(dni)
-            registro = conexion.Conexion.buscaClifac(dni)
-            if registro:
-                nombre = registro[0] + ', ' + registro[1]
-                var.ui.lblNomfac.setText(nombre)
 
-            invoice.Facturas.cargarLineaVenta(self)
-            conexion.Conexion.cargarLineasVenta()
-
-        except Exception as error:
-            print('error alta en factura', error)
 
     def delVentaFac(codfac):
+        """
+
+        Módulo que dado el número factura, la da de baja.
+        Además llama al módulo borrar ventas para que elimine todas las ventas asociadas a esa factura de
+        la tabla ventas de la BD
+
+        """
         try:
             ventas = []
             query = QtSql.QSqlQuery()
@@ -670,26 +869,6 @@ class Conexion():
         except Exception as e:
             print(e)
 
-    def create_DB(filename):
-        try:
-            con = sqlite3.connect(database=filename)
-            cur = con.cursor()
-            con.execute(
-                'CREATE TABLE IF NOT EXISTS articulos(codigo INTEGER,nombre TEXT,precio NUMERIC, PRIMARY KEY(codigo AUTOINCREMENT));)')
-            con.execute('CREATE TABLE IF NOT EXISTS clientes(dni TEXT NOT NULL, alta TEXT, apellidos TEXT NOT NULL,'
-                        ' nombre TEXT, direccion TEXT, provincia TEXT, municipio TEXT, sexo TEXT, pago TEXT, envio INTEGER, PRIMARY KEY(dni)))')
-
-            con.commit()
-            con.close()
-            '''Creacion de Directorios'''
-            if not os.path.exists('.\\informes'):
-                os.mkdir('.\\informes')
-        except Exception as error:
-            msg = QtWidgets.QMessageBox()
-            msg.setWindowTitle('Aviso')
-            msg.setIcon(QtWidgets.QMessageBox.Information)
-            msg.setText('Error al crear la BD')
-            msg.exec_()
 
 
 
