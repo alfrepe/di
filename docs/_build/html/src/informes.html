@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>informes module &#8212; documentación de interface - 0.1</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-informes">
+<span id="informes-module"></span><h1>informes module<a class="headerlink" href="#module-informes" title="Enlazar permanentemente con este título">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="informes.Informes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">informes.</span></span><span class="sig-name descname"><span class="pre">Informes</span></span><a class="reference internal" href="../_modules/informes.html#Informes"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#informes.Informes" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="informes.Informes.cabecera">
+<span class="sig-name descname"><span class="pre">cabecera</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/informes.html#Informes.cabecera"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#informes.Informes.cabecera" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que dibuja la cabecera común a todos los informes con los datos de la empresa.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="informes.Informes.cabeceraFactura">
+<span class="sig-name descname"><span class="pre">cabeceraFactura</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/informes.html#Informes.cabeceraFactura"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#informes.Informes.cabeceraFactura" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que dibuja la cabecera con los datos del cliente de específicos que se añaden en el caso de una factura.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="informes.Informes.factura">
+<span class="sig-name descname"><span class="pre">factura</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/informes.html#Informes.factura"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#informes.Informes.factura" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que dibuja la factura seleccionada y la guarda en formato pdf.
+Usa los métodos cabecera y pie para dibujar dichas partes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="informes.Informes.listadoClientes">
+<span class="sig-name descname"><span class="pre">listadoClientes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/informes.html#Informes.listadoClientes"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#informes.Informes.listadoClientes" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que dibuja el el informe de listado de clientes y lo guarda en formato pdf.
+Usa los métodos cabecera y pie para dibujar dichas partes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="informes.Informes.listadoProductos">
+<span class="sig-name descname"><span class="pre">listadoProductos</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/informes.html#Informes.listadoProductos"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#informes.Informes.listadoProductos" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que dibuja el el informe de listado de productos y lo guarda en formato pdf.
+Usa los métodos cabecera y pie para dibujar dichas partes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="informes.Informes.pie">
+<span class="sig-name descname"><span class="pre">pie</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/informes.html#Informes.pie"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#informes.Informes.pie" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que dibuja el pie del informe con un formato común.
+Recibe el título del informe para printarlo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="informes.Informes.totalFactura">
+<span class="sig-name descname"><span class="pre">totalFactura</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/informes.html#Informes.totalFactura"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#informes.Informes.totalFactura" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que añade a la factura el cálculo del subtotal, iva y total tras haber añadido las lineas de venta.
+Recibe la altura a la que debe printarse para decidir si debe cambiar de página.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">interface</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navegación</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Búsqueda rápida</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, alfredo.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/src/informes.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

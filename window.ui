@@ -52,45 +52,6 @@
      <height>768</height>
     </size>
    </property>
-   <widget class="QLabel" name="lblClientes">
-    <property name="geometry">
-     <rect>
-      <x>430</x>
-      <y>10</y>
-      <width>181</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Aria black</family>
-      <pointsize>10</pointsize>
-      <weight>10</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QLabel{
-	font: 87 10pt &quot;Aria black&quot;;
-	color:'white';
-	border: 3px, solid, white;
-	align: center;
-}</string>
-    </property>
-    <property name="text">
-     <string>IMPORT EXPORT VIGO</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
    <widget class="QTabWidget" name="tabPrograma">
     <property name="geometry">
      <rect>
@@ -223,7 +184,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>img/calendar.jpg</normaloff>img/calendar.jpg</iconset>
+            <normaloff>img/calendar.png</normaloff>img/calendar.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -827,7 +788,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/limpia.png</normaloff>img/limpia.png</iconset>
+         <normaloff>img/recargar.png</normaloff>img/recargar.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -972,7 +933,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/lupa.jpg</normaloff>img/lupa.jpg</iconset>
+         <normaloff>img/lupa.png</normaloff>img/lupa.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -981,33 +942,10 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
         </size>
        </property>
       </widget>
-      <widget class="QPushButton" name="btnReportcli">
-       <property name="geometry">
-        <rect>
-         <x>631</x>
-         <y>250</y>
-         <width>36</width>
-         <height>30</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="img/impresora.qrc">
-         <normaloff>:/newPrefix/impresora.png</normaloff>:/newPrefix/impresora.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-      </widget>
       <widget class="QPushButton" name="btnPDFcli">
        <property name="geometry">
         <rect>
-         <x>580</x>
+         <x>560</x>
          <y>250</y>
          <width>36</width>
          <height>30</height>
@@ -1018,7 +956,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/ojo.png</normaloff>img/ojo.png</iconset>
+         <normaloff>img/factura.png</normaloff>img/factura.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1126,19 +1064,6 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
       <property name="midLineWidth">
        <number>0</number>
       </property>
-      <widget class="QPushButton" name="btnFacturar">
-       <property name="geometry">
-        <rect>
-         <x>510</x>
-         <y>50</y>
-         <width>75</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Facturar</string>
-       </property>
-      </widget>
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
@@ -1201,8 +1126,8 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="img/lupa.qrc">
-            <normaloff>:/newPrefix/lupa.jpg</normaloff>:/newPrefix/lupa.jpg</iconset>
+           <iconset>
+            <normaloff>img/lupa.png</normaloff>img/lupa.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -1256,8 +1181,8 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="img/calendar.qrc">
-            <normaloff>:/newPrefix/calendar.jpg</normaloff>:/newPrefix/calendar.jpg</iconset>
+           <iconset>
+            <normaloff>img/calendar.png</normaloff>img/calendar.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -1317,7 +1242,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
         <item>
          <widget class="QLabel" name="lblNomfac">
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(255, 253, 215);</string>
+           <string notr="true">background-color: rgb(180,226,244);</string>
           </property>
           <property name="text">
            <string/>
@@ -1367,7 +1292,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(255, 253, 215);</string>
+           <string notr="true">background-color: rgb(180,226,244);</string>
           </property>
           <property name="text">
            <string/>
@@ -1378,19 +1303,6 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
          </widget>
         </item>
        </layout>
-      </widget>
-      <widget class="QPushButton" name="btnImprimir">
-       <property name="geometry">
-        <rect>
-         <x>600</x>
-         <y>50</y>
-         <width>75</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Imprimir</string>
-       </property>
       </widget>
       <widget class="QPushButton" name="btnImprimir_2">
        <property name="geometry">
@@ -1405,18 +1317,38 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
         <string>Imprimir</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="btnBorrarVenta">
+      <widget class="QWidget" name="">
        <property name="geometry">
         <rect>
-         <x>690</x>
+         <x>510</x>
          <y>50</y>
-         <width>75</width>
-         <height>23</height>
+         <width>239</width>
+         <height>25</height>
         </rect>
        </property>
-       <property name="text">
-        <string>borrar</string>
-       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_17">
+        <item>
+         <widget class="QPushButton" name="btnFacturar">
+          <property name="text">
+           <string>Facturar</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnImprimir">
+          <property name="text">
+           <string>Ver factura</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnBorrarVenta">
+          <property name="text">
+           <string>borrar</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
      <widget class="QFrame" name="frame_2">
@@ -1581,7 +1513,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 253, 215);</string>
+       <string notr="true">background-color: rgb(180,226,244);</string>
       </property>
       <property name="text">
        <string>          Nº             Fecha</string>
@@ -1615,7 +1547,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 253, 215);</string>
+       <string notr="true">background-color: rgb(180,226,244);</string>
       </property>
       <property name="text">
        <string>VENTAS</string>
@@ -1726,7 +1658,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 253, 215);</string>
+        <string notr="true">background-color: rgb(180,226,244);</string>
        </property>
        <property name="text">
         <string/>
@@ -1763,7 +1695,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 253, 215);</string>
+        <string notr="true">background-color: rgb(180,226,244);</string>
        </property>
        <property name="text">
         <string>Subtotal</string>
@@ -1800,7 +1732,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 253, 215);</string>
+        <string notr="true">background-color: rgb(180,226,244);</string>
        </property>
        <property name="text">
         <string>IVA</string>
@@ -1837,7 +1769,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 253, 215);</string>
+        <string notr="true">background-color: rgb(180,226,244);</string>
        </property>
        <property name="text">
         <string>Total</string>
@@ -1862,7 +1794,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 192,203);</string>
+        <string notr="true">background-color: rgb(180,226,244);</string>
        </property>
        <property name="text">
         <string/>
@@ -1884,7 +1816,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 192,203);</string>
+        <string notr="true">background-color: rgb(180,226,244);</string>
        </property>
        <property name="text">
         <string/>
@@ -1906,7 +1838,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 192,203);</string>
+        <string notr="true">background-color: rgb(180,226,244);</string>
        </property>
        <property name="text">
         <string/>
@@ -2003,7 +1935,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
           </size>
          </property>
          <property name="text">
-          <string>Alta</string>
+          <string>Nuevo</string>
          </property>
         </widget>
        </item>
@@ -2152,7 +2084,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>img/lupa.jpg</normaloff>img/lupa.jpg</iconset>
+        <normaloff>img/lupa.png</normaloff>img/lupa.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -2175,7 +2107,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>img/limpia.png</normaloff>img/limpia.png</iconset>
+        <normaloff>img/recargar.png</normaloff>img/recargar.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -2198,7 +2130,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>img/ojo.png</normaloff>img/ojo.png</iconset>
+        <normaloff>img/factura.png</normaloff>img/factura.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -2282,6 +2214,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
     <property name="title">
      <string>Acerca de</string>
     </property>
+    <addaction name="actionproyecto_de_interfaces"/>
    </widget>
    <addaction name="menuArchivo"/>
    <addaction name="menuHerramientas"/>
@@ -2310,8 +2243,8 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
    <addaction name="actionbarimprimir"/>
    <addaction name="separator"/>
    <addaction name="actionbarcrearbackup"/>
-   <addaction name="actionbarresaturabackup"/>
    <addaction name="separator"/>
+   <addaction name="actionbarresaturabackup"/>
    <addaction name="actionbarSalir"/>
   </widget>
   <action name="actionSalir">
@@ -2343,7 +2276,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>img/salir.jpg</normaloff>img/salir.jpg</iconset>
+     <normaloff>img/exit.png</normaloff>img/exit.png</iconset>
    </property>
    <property name="text">
     <string>barSalir</string>
@@ -2357,8 +2290,8 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="img/carpeta.qrc">
-     <normaloff>:/newPrefix/abrircarpeta.png</normaloff>:/newPrefix/abrircarpeta.png</iconset>
+    <iconset>
+     <normaloff>img/abrirdirectorio.jpg</normaloff>img/abrirdirectorio.jpg</iconset>
    </property>
    <property name="text">
     <string>barabrirdirectorio</string>
@@ -2367,7 +2300,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
   <action name="actionbarcrearbackup">
    <property name="icon">
     <iconset>
-     <normaloff>img/crearbackup.jpg</normaloff>img/crearbackup.jpg</iconset>
+     <normaloff>img/export.png</normaloff>img/export.png</iconset>
    </property>
    <property name="text">
     <string>barcrearbackup</string>
@@ -2376,7 +2309,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
   <action name="actionbarresaturabackup">
    <property name="icon">
     <iconset>
-     <normaloff>img/restaurabackup.png</normaloff>img/restaurabackup.png</iconset>
+     <normaloff>img/import.png</normaloff>img/import.png</iconset>
    </property>
    <property name="text">
     <string>barresaturabackup</string>
@@ -2417,6 +2350,11 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
     <string>Listado Clientes</string>
    </property>
   </action>
+  <action name="actionproyecto_de_interfaces">
+   <property name="text">
+    <string>información</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="img/lupa.qrc"/>
@@ -2426,11 +2364,11 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
  </resources>
  <connections/>
  <buttongroups>
+  <buttongroup name="rbtGroupSex"/>
   <buttongroup name="chkGroupPago">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="rbtGroupSex"/>
  </buttongroups>
 </ui>

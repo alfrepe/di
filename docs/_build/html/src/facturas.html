@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>facturas module &#8212; documentación de interface - 0.1</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-facturas">
+<span id="facturas-module"></span><h1>facturas module<a class="headerlink" href="#module-facturas" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Gestión Facturación</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="facturas.Facturas">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">facturas.</span></span><span class="sig-name descname"><span class="pre">Facturas</span></span><a class="reference internal" href="../_modules/facturas.html#Facturas"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#facturas.Facturas" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="facturas.Facturas.buscaCli">
+<span class="sig-name descname"><span class="pre">buscaCli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/facturas.html#Facturas.buscaCli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#facturas.Facturas.buscaCli" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que carga los datos de cliente en la interfaz de facturación tomando su dni desde la información de
+la factura y consultando Conexion.buscaCliFac.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="facturas.Facturas.cargaFac">
+<span class="sig-name descname"><span class="pre">cargaFac</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/facturas.html#Facturas.cargaFac"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#facturas.Facturas.cargaFac" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que consulta los datos de una factura seleccionada en tabla con Conexion.buscaDatosFac
+y rellena sus respectivos campos en la interfaz.
+Tambien carga sus lineas de venta con Conexion.cargarLineasVenta.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="facturas.Facturas.cargarLineaVenta">
+<span class="sig-name descname"><span class="pre">cargarLineaVenta</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/facturas.html#Facturas.cargarLineaVenta"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#facturas.Facturas.cargarLineaVenta" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que carga una línea de venta en la fila de la tabla indicada por index
+:return: última línea de la tabla que carga las ventas de una factura
+:rtype: int</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="facturas.Facturas.facturar">
+<span class="sig-name descname"><span class="pre">facturar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/facturas.html#Facturas.facturar"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#facturas.Facturas.facturar" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que lanza el proceso de guardar una nueva factura y actualiza la interfaz.
+Llama a Conexion.altaFac, cargaTabFac y buscaCodFac.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="facturas.Facturas.procesoVenta">
+<span class="sig-name descname"><span class="pre">procesoVenta</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/facturas.html#Facturas.procesoVenta"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#facturas.Facturas.procesoVenta" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que guarda todos los datos de la linea de venta al procesarla.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="facturas.Facturas.totalLineaVenta">
+<span class="sig-name descname"><span class="pre">totalLineaVenta</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/facturas.html#Facturas.totalLineaVenta"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#facturas.Facturas.totalLineaVenta" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que calcula el total de una linea de venta y llama a Conexion.cargarVenta para guardarla en la base de
+datos. También actualiza la interfaz en consecuencia.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="facturas.Facturas.vaciarTabVentas">
+<span class="sig-name descname"><span class="pre">vaciarTabVentas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/facturas.html#Facturas.vaciarTabVentas"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#facturas.Facturas.vaciarTabVentas" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que vacía la tabla y los campos referentes a las lineas de venta en la interfaz para futuras operaciones.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">interface</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navegación</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Búsqueda rápida</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, alfredo.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/src/facturas.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

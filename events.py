@@ -2,6 +2,9 @@
 Fichero de eventos generales
 '''
 import os.path, sys, var, shutil, zipfile, conexion, xlrd, xlwt
+
+from PyQt5.QtWidgets import QMessageBox
+
 from window import *
 from datetime import date, datetime
 from PyQt5 import QtPrintSupport, QtSql
@@ -9,6 +12,11 @@ from PyQt5 import QtPrintSupport, QtSql
 
 class Eventos():
     def Salir(self):
+        """
+
+        Método que finaliza la ejecución del programa.
+
+        """
         try:
             var.dlgaviso.show()
             if var.dlgaviso.exec():
@@ -19,12 +27,22 @@ class Eventos():
             print('Error en módulo salir ', error)
 
     def abrircal(self):
+        """
+
+        Método que muestra la ventana de calendario.
+
+        """
         try:
             var.dlgcalendar.show()
         except Exception as error:
             print('Error al abrir el calendario', error)
 
     def resizeTablaCli(self):
+        """
+
+        Método que redimensiona la tabla de clientes al lanzarse la interfaz.
+
+        """
         try:
             header = var.ui.tabClientes.horizontalHeader()
             for i in range(5):
@@ -35,6 +53,11 @@ class Eventos():
             print('Error al redimensionar tabla clientes', error)
 
     def resizeTablaPro(self):
+        """
+
+        Método que redimensiona la tabla de artículos al lanzarse la interfaz.
+
+        """
         try:
             header = var.ui.tabProd.horizontalHeader()
             for i in range(3):
@@ -46,20 +69,38 @@ class Eventos():
             print('Error al redimensionar tabla clientes', error)
 
     def resizeTablaFac(self):
+        """
+
+        Método que redimensiona la tabla de facturas al lanzarse la interfaz.
+
+        """
         try:
             header = var.ui.tabFacturas.horizontalHeader()
-            for i in range(3):
-                header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeToContents)
-
+            for i in range(2):
+                if i == 1:
+                    header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
+                if i == 0 :
+                    header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
         except Exception as error:
-            print('Error al redimensionar tabla clientes', error)
+            print('Error al dar formato a tabla facturas ',error)
+
     def Abrir(self):
+        """
+
+        Método que abre la ventana del explorador de archivos de windows para seleccionar un archivo.
+
+        """
         try:
             var.dlgabrir.show()
         except Exception as error:
             print('Error al abrir cuadro dialogo', error)
 
     def crearBackup(self):
+        """
+
+        Método que genera una copia de seguridad de la base de datos y la exporta a un .zip.
+
+        """
         try:
             fecha = datetime.today()
             fecha = fecha.strftime('%Y.%m.%d.%H.%M.%S')
@@ -83,6 +124,11 @@ class Eventos():
             print('Error Crear Backup: ', error)
 
     def restaurarBackup(self):
+        """
+
+        Método que restaura la información de la base de datos desde un archivo .zip.
+
+        """
         try:
 
             option = QtWidgets.QFileDialog.Options()
@@ -110,6 +156,11 @@ class Eventos():
             print('Error Restaurar Backup')
 
     def Imprimir(self):
+        """
+
+        Método que abre la ventana de imprimir de windows.
+
+        """
         try:
             printDialog = QtPrintSupport.QPrintDialog()
             if printDialog.exec_():
@@ -203,6 +254,11 @@ class Eventos():
             print('Error en conexion para exportar excel ', error)
 
     def resizeTablaFac(self):
+        """
+
+        Método que redimensiona la tabla de facturas al lanzarse la interfaz.
+
+        """
         try:
             header = var.ui.tabFacturas.horizontalHeader()
             for i in range(2):
@@ -214,6 +270,11 @@ class Eventos():
             print('Error al redimensionar tabla clientes', error)
 
     def resizeTablaVen(self):
+        """
+
+         Método que redimensiona la tabla de ventas al lanzarse la interfaz.
+
+         """
         try:
             header = var.ui.tabVentas.horizontalHeader()
             for i in range(5):
@@ -225,6 +286,12 @@ class Eventos():
             print('Error al redimensionar tabla clientes', error)
 
     def modoEnvio(self):
+        def labelEnvio(self):
+            """
+
+            Método que relaciona el label de envío con su valor correspondiente en el spinner de la interfaz.
+
+            """
         try:
             reg = var.ui.spinEnvio.value()
             if reg == 1:
@@ -238,3 +305,18 @@ class Eventos():
         except Exception as error:
             print('Error en spinbox', error)
 
+    def acercaDe(self):
+        """
+
+        Método que muestra un cartel de información sobre el proyecto al pulsar Acerca de.
+
+        """
+        try:
+            msgBox = QMessageBox()
+            msgBox.setIcon(QtWidgets.QMessageBox.Information)
+            msgBox.setText("Proyecto de diseño de interfaces")
+            msgBox.setWindowTitle("Aviso")
+            msgBox.setStandardButtons(QMessageBox.Ok)
+            msgBox.exec()
+        except Exception as error:
+            print('Error al mostrar acerca de ',error)

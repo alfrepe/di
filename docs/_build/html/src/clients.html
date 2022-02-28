@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>clients module &#8212; documentación de interface - 0.1</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-clients">
+<span id="clients-module"></span><h1>clients module<a class="headerlink" href="#module-clients" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Funciones gestion clientes</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="clients.Clientes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clients.</span></span><span class="sig-name descname"><span class="pre">Clientes</span></span><a class="reference internal" href="../_modules/clients.html#Clientes"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#clients.Clientes" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="clients.Clientes.bajaCli">
+<span class="sig-name descname"><span class="pre">bajaCli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clients.html#Clientes.bajaCli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#clients.Clientes.bajaCli" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que gestiona el borrado de un cliente de la bbdd y actualiza la interfaz en consecuencia.
+Llama a Conexion.bajaCli y cargaTabCli.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clients.Clientes.buscaCli">
+<span class="sig-name descname"><span class="pre">buscaCli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clients.html#Clientes.buscaCli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#clients.Clientes.buscaCli" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Busca el cliente por el dni y muestra los datos en las cajas de texto
+:return:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clients.Clientes.cargaCli">
+<span class="sig-name descname"><span class="pre">cargaCli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clients.html#Clientes.cargaCli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#clients.Clientes.cargaCli" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Carga los aatos del cliente al seleccionar en tabla
+:return:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clients.Clientes.cargarFecha">
+<span class="sig-name descname"><span class="pre">cargarFecha</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clients.html#Clientes.cargarFecha"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#clients.Clientes.cargarFecha" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que carga la fecha seleccionada en el calendario en el txt de la interfaz.
+Es formateada para ello.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clients.Clientes.guardaCli">
+<span class="sig-name descname"><span class="pre">guardaCli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clients.html#Clientes.guardaCli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#clients.Clientes.guardaCli" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que gestiona el proceso de guardado de un nuevo cliente en la bbdd y actualiza la interfaz
+en consecuencia.
+Llama a Conexion.altaCli y cargaTabCli.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clients.Clientes.letraCapital">
+<span class="sig-name descname"><span class="pre">letraCapital</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clients.html#Clientes.letraCapital"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#clients.Clientes.letraCapital" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que formatea los campos de nombre, apellidos y dirección del cliente para que cada palabra inicie en
+mayúsculas.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clients.Clientes.limpiaFormCli">
+<span class="sig-name descname"><span class="pre">limpiaFormCli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clients.html#Clientes.limpiaFormCli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#clients.Clientes.limpiaFormCli" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que vacía los distintos campos de la interfaz de clientes para futuras operaciones.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clients.Clientes.modifCli">
+<span class="sig-name descname"><span class="pre">modifCli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clients.html#Clientes.modifCli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#clients.Clientes.modifCli" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que guarda las modificaciones realizadas sobre el cliente que se encuentra volcado en la interfaz.
+Usa Conexion.modifCli y cargaTabCli.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clients.Clientes.validarDNI">
+<span class="sig-name descname"><span class="pre">validarDNI</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clients.html#Clientes.validarDNI"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#clients.Clientes.validarDNI" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Método que comprueba si el dni introducido es válido y señala el resultado en la interfaz gráfica.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">interface</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navegación</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Búsqueda rápida</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, alfredo.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/src/clients.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

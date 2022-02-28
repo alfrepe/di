@@ -3,7 +3,7 @@ import conexion
 from window import *
 from windowaviso import *
 from windowcal import *
-import sys, var, events, clients, locale, informes, products, invoice
+import sys, var, events, clients, locale, informes, productos, facturas
 locale.setlocale(locale.LC_ALL, 'es-ES')
 
 
@@ -58,15 +58,15 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btnGrabaCli.clicked.connect(clients.Clientes.guardaCli)
         var.ui.btnBajaCli.clicked.connect(clients.Clientes.bajaCli)
         var.ui.btnModifCli.clicked.connect(clients.Clientes.modifCli)
-        var.ui.btnBuscaCli.clicked.connect(clients.Clientes.buscaCli)
-        var.ui.btnAltapro.clicked.connect(products.Productos.altaPro)
-        var.ui.btnBajapro.clicked.connect(products.Productos.bajaPro)
-        var.ui.btnModifpro.clicked.connect(products.Productos.modifProd)
-        var.ui.btnLimpiaPro.clicked.connect(products.Productos.limpiaFormPro)
-        var.ui.btnBuscaPro.clicked.connect(products.Productos.buscaPro)
-        var.ui.btnBuscaClifac.clicked.connect(invoice.Facturas.buscaCli)
+        #var.ui.btnBuscaCli.clicked.connect(clients.Clientes.buscaCli)
+        var.ui.btnAltapro.clicked.connect(productos.Productos.altaPro)
+        var.ui.btnBajapro.clicked.connect(productos.Productos.bajaPro)
+        var.ui.btnModifpro.clicked.connect(productos.Productos.modifProd)
+        var.ui.btnLimpiaPro.clicked.connect(productos.Productos.limpiaFormPro)
+        var.ui.btnBuscaPro.clicked.connect(productos.Productos.buscaPro)
+        var.ui.btnBuscaClifac.clicked.connect(facturas.Facturas.buscaCli)
         var.ui.btnFechaFac.clicked.connect(events.Eventos.abrircal)
-        var.ui.btnFacturar.clicked.connect(invoice.Facturas.facturar)
+        var.ui.btnFacturar.clicked.connect(facturas.Facturas.facturar)
         var.ui.btnPDFcli.clicked.connect(informes.Informes.listadoClientes)
         var.ui.btnReportPro.clicked.connect(informes.Informes.listadoProductos)
         var.ui.btnImprimir.clicked.connect(informes.Informes.factura)
@@ -90,7 +90,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.txtNome.editingFinished.connect(clients.Clientes.letraCapital)
         var.ui.txtDir.editingFinished.connect(clients.Clientes.letraCapital)
         var.txtCantidad = QtWidgets.QLineEdit()
-        var.txtCantidad.editingFinished.connect(invoice.Facturas.totalLineaVenta)
+        var.txtCantidad.editingFinished.connect(facturas.Facturas.totalLineaVenta)
 
 
         '''
@@ -103,32 +103,19 @@ class Main(QtWidgets.QMainWindow):
         events.Eventos.resizeTablaVen(self)
         var.ui.tabClientes.clicked.connect(clients.Clientes.cargaCli)
         var.ui.tabClientes.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)
-        var.ui.tabProd.clicked.connect(products.Productos.cargaPro)
+        var.ui.tabProd.clicked.connect(productos.Productos.cargaPro)
         var.ui.tabProd.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)
-        #var.ui.tabFacturas.clicked.connect(invoice.Facturas.cargaFac)
-        var.ui.tabFacturas.clicked.connect(invoice.Facturas.cargaFac)
+        var.ui.tabFacturas.clicked.connect(facturas.Facturas.cargaFac)
         var.ui.tabProd.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)
         var.ui.tabVentas.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)
-        #invoice.Facturas.prepararTabFac(self)
-        invoice.Facturas.cargarLineaVenta(0)
-
-
-
-        '''
-        Base de datos
-        '''
-        conexion.Conexion.db_connect(var.filedb)
-        conexion.Conexion.cargarTabCli()
-        conexion.Conexion.cargarTabPro(self)
-        conexion.Conexion.cargaTabfacturas(self)
 
         '''
         Eventos combobox
         '''
-        conexion.Conexion.cargaProv(self)
-        var.ui.cmbProv.currentIndexChanged.connect(conexion.Conexion.cargaMuni)
-        conexion.Conexion.cargarCmbProducto(self)
 
+        var.ui.cmbProv.currentIndexChanged.connect(conexion.Conexion.cargaMuni)
+        var.cmbProducto = QtWidgets.QComboBox()
+        var.cmbProducto.currentIndexChanged.connect(facturas.Facturas.procesoVenta)
 
         '''
         barra de estado
@@ -146,15 +133,22 @@ class Main(QtWidgets.QMainWindow):
         var.ui.actionbarresaturabackup.triggered.connect(events.Eventos.restaurarBackup)
         var.ui.actionbarimprimir.triggered.connect(events.Eventos.Imprimir)
         var.ui.actionListado_Clientes.triggered.connect(informes.Informes.listadoClientes)
-
+        var.ui.actionproyecto_de_interfaces.triggered.connect(events.Eventos.acercaDe)
 
         '''
         otros eventos
         '''
         var.ui.spinEnvio.valueChanged.connect(events.Eventos.modoEnvio)
 
-
-
+        '''
+        Base de datos
+        '''
+        conexion.Conexion.db_connect(var.filedb)
+        conexion.Conexion.cargarTabCli()
+        conexion.Conexion.cargaTabfacturas(self)
+        conexion.Conexion.cargarTabPro(self)
+        conexion.Conexion.cargaProv(self)
+        facturas.Facturas.cargarLineaVenta(self)
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])

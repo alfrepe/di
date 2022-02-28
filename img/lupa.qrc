@@ -1,5 +1,0 @@
-<RCC>
-  <qresource prefix="newPrefix">
-    <file>lupa.jpg</file>
-  </qresource>
-</RCC>

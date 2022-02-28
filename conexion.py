@@ -1,10 +1,11 @@
 import csv
 import os
 import sqlite3
+import traceback
 
 from PyQt5 import QtSql, QtWidgets, Qt
-import conexion, events, products
-import invoice
+import conexion, events, productos
+import facturas
 import var
 from window import *
 import locale
@@ -92,15 +93,13 @@ class Conexion():
             db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
             db.setDatabaseName(filedb)
             if not db.open():
-                QtWidgets.QMessageBox.critical(None,
-                 'No se puede abrir la base de atos.\n' 'Haz click para continuar',
-                        QtWidgets.QMessageBox.Cancel)
+                QtWidgets.QMessageBox.critical(None, 'No se puede abrir la base de datos. \nHaz click para continuar.',
+                                               QtWidgets.QMessageBox.Cancel)
                 return False
-            else:
-                print('Conexión establecida')
-                return True
+            print('Conexión establecida')
+            return True
         except Exception as error:
-            print('Problemas en conexion ', error)
+            print('Problemas en conexion ', error,traceback.format_exc())
     '''
     Módulos gestión db clientes
     '''
@@ -115,7 +114,6 @@ class Conexion():
         """
         try:
             query = QtSql.QSqlQuery()
-            #var = Conexion.comprobardni
             if var:
                 query.prepare('insert into clientes (dni, alta, apellidos, nombre, direccion, provincia, municipio,'
                               'sexo, pago, envio) VALUES (:dni, :alta, :apellidos, :nombre, :direccion, :provincia, :municipio,'
@@ -143,7 +141,7 @@ class Conexion():
                     msg.setText(query.lastError().text())
                     msg.exec()
         except Exception as error:
-            print('Problemas en altaCliente', error)
+            print('Problemas en altaCliente', error,traceback.format_exc())
 
     def altaCliexcel(newcli):
         """
@@ -171,7 +169,7 @@ class Conexion():
                     print("Inserción Correcta")
                 #Conexion.mostrarClientes(None)
         except Exception as error:
-            print('Problemas en altaCliente', error)
+            print('Problemas en altaCliente', error,traceback.format_exc())
 
     def bajaCli(dni):
         """
@@ -197,9 +195,9 @@ class Conexion():
                 msg.exec()
 
         except Exception as error:
-            print("Error baja cliente en conexion ", error)
+            print("Error baja cliente en conexion ", error,traceback.format_exc())
 
-    def cargarTabCli():
+    def cargarTabCli(self=None):
         """
 
        Módulo que toma datos de los clientes y los carga en la tabla de la ui
@@ -225,7 +223,7 @@ class Conexion():
                     var.ui.tabClientes.setItem(index, 4, QtWidgets.QTableWidgetItem(pago))
                     index += 1
         except Exception as error:
-            print('Problemas mostrar tabla clientes', error)
+            print('Problemas mostrar tabla clientes', error,traceback.format_exc())
 
 
     def oneCli(dni):
@@ -249,7 +247,7 @@ class Conexion():
             return record
 
         except Exception as error:
-            print('Problemas devolver cliente marcado', error)
+            print('Problemas devolver cliente marcado', error,traceback.format_exc())
 
     def cargaProv(self):
         """
@@ -268,7 +266,7 @@ class Conexion():
                 while query.next():
                     var.ui.cmbProv.addItem(query.value(0))
         except Exception as error:
-            print('Problemas cargar combo ', error)
+            print('Problemas cargar combo ', error,traceback.format_exc())
 
 
     def cargaMuni(self):
@@ -298,7 +296,7 @@ class Conexion():
                     var.ui.cmbMuni.addItem(query1.value(0))
 
         except Exception as error:
-            print('Problemas cargar combo municipio ', error)
+            print('Problemas cargar combo municipio ', error,traceback.format_exc())
 
     def modifCli(modcliente):
         """
@@ -335,7 +333,7 @@ class Conexion():
                 msg.exec()
 
         except Exception as error:
-            print('Problemas modificar cliente ', error)
+            print('Problemas modificar cliente ', error,traceback.format_exc())
 
 
     def comprobardni(dni):
@@ -357,7 +355,7 @@ class Conexion():
             return var.msg
 
         except Exception as error:
-            print('Problemas comprobar dni ', error)
+            print('Problemas comprobar dni ', error,traceback.format_exc())
 
     def buscaClie(dni):
         """
@@ -386,37 +384,9 @@ class Conexion():
 
                 return registro
             else:
-                #self = 0
                 Conexion.cargarTabCli()
         except Exception as error:
-            print('Búsqueda de un cliente: ', error)
-
-    '''
-    funciones gestión PRODUCTOS
-    '''
-
-    def altaProd(registro):
-        """
-
-        Módulo que recibe un producto y lo guarda en la BD
-
-        """
-        try:
-            query = QtSql.QSqlQuery()
-            query.prepare('insert into productos (producto, precio) VALUES '
-                         '(:producto, :precio)')
-            query.bindValue(':producto', str(registro[0]))
-            query.bindValue(':precio', str(registro[1]))
-            if query.exec_():
-                msg = QtWidgets.QMessageBox()
-                msg.setWindowTitle('Aviso')
-                msg.setIcon(QtWidgets.QMessageBox.Information)
-                msg.setText('Artículo dado de Alta')
-                msg.exec()
-
-        except Exception as error:
-            print('Problemas alta producto ', error)
-
+            print('Búsqueda de un cliente: ', error,traceback.format_exc())
 
     def cargarTabPro(self):
         """
@@ -440,103 +410,7 @@ class Conexion():
                     var.ui.tabProd.item(index, 0).setTextAlignment(QtCore.Qt.AlignCenter)
                     index += 1
         except Exception as error:
-            print('Problemas mostrar tabla productos', error)
-
-    def bajaProd(cod):
-        """
-
-        Módulo que recibe el codigo de un producto y lo busca en la BD para eliminarlo
-        :rtype:
-        """
-        try:
-            query = QtSql.QSqlQuery()
-            query.prepare('delete from productos where codigo = :cod')
-            query.bindValue(':cod', str(cod))
-            if query.exec_():
-                msg = QtWidgets.QMessageBox()
-                msg.setWindowTitle('Aviso')
-                msg.setIcon(QtWidgets.QMessageBox.Information)
-                msg.setText('Producto dado de Baja')
-                msg.exec()
-            else:
-                msg = QtWidgets.QMessageBox()
-                msg.setWindowTitle('Aviso')
-                msg.setIcon(QtWidgets.QMessageBox.Warning)
-                msg.setText(query.lastError().text())
-                msg.exec()
-
-        except Exception as error:
-            print("Error baja cliente en conexion ", error)
-
-    def modifPro(modpro):
-        """
-
-        Módulo que recibe los datos del producto a modificar y los guarda en la BD
-        :rtype:
-
-        """
-        try:
-            query = QtSql.QSqlQuery()
-            query.prepare('update productos set producto =:producto, precio = :precio where codigo = :cod')
-            query.bindValue(':cod',  int(modpro[0]))
-            query.bindValue(':producto', str(modpro[1]))
-            modpro[2] = modpro[2].replace('€','')
-            modpro[2] = modpro[2].replace(',','.')
-            modpro[2] = float(modpro[2])
-            modpro[2] = round(modpro[2], 2)
-            modpro[2] = str(modpro[2])
-            modpro[2] = locale.currency(float(modpro[2]))
-            query.bindValue(':precio', str(modpro[2]))
-
-            if query.exec_():
-                msg = QtWidgets.QMessageBox()
-                msg.setWindowTitle('Aviso')
-                msg.setIcon(QtWidgets.QMessageBox.Information)
-                msg.setText('Datos modificados de Producto')
-                msg.exec()
-            else:
-                msg = QtWidgets.QMessageBox()
-                msg.setWindowTitle('Aviso')
-                msg.setIcon(QtWidgets.QMessageBox.Warning)
-                msg.setText(query.lastError().text())
-                msg.exec()
-        except Exception as error:
-            print('Error modificar producto en conexion: ', error)
-
-    def buscaPro(producto):
-        """
-
-        Módulo que recibe el nombre de un producto para buscarlo en la BD
-
-        """
-        try:
-            if producto != '':
-                registro = []
-                query = QtSql.QSqlQuery()
-                query.prepare('select codigo, producto, precio from productos where producto =:producto')
-                query.bindValue(':producto', str(producto))
-                var.ui.tabProd.setRowCount(0)
-                var.ui.tabProd.insertRow(0)
-                if query.exec_():
-                    while query.next():
-                        codigo = query.value(0)
-                        registro.append(str(codigo))
-                        var.ui.tabProd.setItem(0, 0, QtWidgets.QTableWidgetItem(str(registro[0])))
-                        producto = query.value(1)
-                        registro.append(str(producto))
-                        var.ui.tabProd.setItem(0, 1, QtWidgets.QTableWidgetItem(str(registro[1])))
-                        precio = query.value(2)
-                        registro.append(str(precio))
-                        var.ui.tabProd.setItem(0, 2, QtWidgets.QTableWidgetItem(str(registro[2])))
-                        var.ui.tabProd.item(0, 2).setTextAlignment(QtCore.Qt.AlignRight)
-                        var.ui.tabProd.item(0, 0).setTextAlignment(QtCore.Qt.AlignCenter)
-            else:
-                #self = 0
-                Conexion.cargarTabPro(self=None)
-            return registro
-
-        except Exception as error:
-            print('Error en búsqueda producto: ', error)
+            print('Problemas mostrar tabla productos', error,traceback.format_exc())
 
     '''
     gestión facturación
@@ -561,7 +435,7 @@ class Conexion():
                     registro.append(query.value(2))
             return registro
         except Exception as error:
-            print('error en conexión buscar cliente', error)
+            print('error en conexión buscar cliente', error,traceback.format_exc())
 
     def altaFac(registro):
         """
@@ -587,7 +461,7 @@ class Conexion():
                 msg.setText(query.lastError().text())
                 msg.exec()
         except Exception as error:
-            print('Error en conexión alta fac', error)
+            print('Error en conexión alta fac', error,traceback.format_exc())
 
     def cargaTabfacturas(self):
         """
@@ -622,7 +496,7 @@ class Conexion():
                     var.ui.tabFacturas.item(index, 1).setTextAlignment(QtCore.Qt.AlignCenter)
                     index = index + 1
         except Exception as error:
-            print('Error en carga listado facturas ', error)
+            print('Error en carga listado facturas ', error,traceback.format_exc())
 
     def buscaDNIFac(numfac):
         """
@@ -638,10 +512,10 @@ class Conexion():
             query.bindValue(':numfac', int(numfac))
             if query.exec_():
                 while query.next():
-                    dni = query.value(0)
-            return dni
+                    return query.value(0)
+            return ''
         except Exception as error:
-            print('Error en carga listado facturas ', error)
+            print('Error en carga listado facturas ', error,traceback.format_exc())
 
     def bajaFac(self):
         """
@@ -652,11 +526,15 @@ class Conexion():
 
         """
         try:
-
             numfac = var.ui.lblNumfac.text()
             query = QtSql.QSqlQuery()
+            query.prepare('delete from ventas where codfac = :codfac')
+            query.bindValue(':codfac', int(numfac))
+            if query.exec_():
+                print("ventas eliminadas de la factura ",numfac)
             query.prepare('delete from facturas where codigo = :numfac')
             query.bindValue(':numfac', int(numfac))
+
             # msg = QtWidgets.QMessageBox()
             # msg.setWindowTitle('Aviso')
             # msg.setText('Va a dar baja la factura ', numfac)
@@ -670,8 +548,9 @@ class Conexion():
                 msg1.setText('Factura dada de Baja')
                 msg1.exec()
                 Conexion.cargaTabfacturas(self)
+                facturas.Facturas.vaciarTabVentas()
         except Exception as error:
-            print('Error módulo baja factura', error)
+            print('Error módulo baja factura', error,traceback.format_exc())
 
     def cargarCmbProducto(self):
         """
@@ -688,7 +567,7 @@ class Conexion():
                 while query.next():
                     var.cmbProducto.addItem(str(query.value(0)))
         except Exception as e:
-            print(e)
+            print(e,traceback.format_exc())
 
     def obtenerCodPrecio(articulo):
         """
@@ -711,7 +590,7 @@ class Conexion():
             return dato
 
         except Exception as e:
-            print(e)
+            print(e,traceback.format_exc())
 
     def cargarVenta(venta):
         """
@@ -721,6 +600,13 @@ class Conexion():
         """
         try:
             query = QtSql.QSqlQuery()
+            query.prepare('select codigo from facturas where codigo=:codfac ')
+            query.bindValue(':codfac',int(venta[0]))
+            if query.exec_():
+                if not query.next():
+                    print("no existe la factura!")
+                    return
+
             query.prepare('insert into ventas (codfac,codpro,precio,cantidad) values '
                           ' (:codfac,:codpro,:preci,:cantidad)')
             query.bindValue(':codfac', int(venta[0]))
@@ -730,12 +616,12 @@ class Conexion():
             if query.exec_():
                 var.ui.lblVenta.setText('venta realizada')
                 var.ui.lblVenta.setStyleSheet('QLabel {color: green;}')
-                Conexion.cargarLineasVenta(venta[0])
             else:
                 var.ui.lblVenta.setStyleSheet('Qlabel {color: red;}')
                 var.ui.lblVenta.setText('error venta')
         except Exception as e:
-            print(e)
+            print(e,traceback.format_exc())
+
     def buscaCodfac(self):
         """
 
@@ -753,7 +639,7 @@ class Conexion():
                     dato = query.value(0)
             return dato
         except Exception as e:
-            print(e)
+            print(e,traceback.format_exc())
 
     def buscaArt(cod):
         """
@@ -771,6 +657,27 @@ class Conexion():
                 return query2.value(0)
         return ''
 
+    def getNombreArticulo(codpro):
+
+        """
+        Método que devuelve el nombre del artículo al que corresponde el código que recibe.
+        :return: Nombre del artículo
+        :rtype: String
+
+        """
+        try:
+            nombre = ''
+            query = QtSql.QSqlQuery()
+            query.prepare('select producto from productos where codigo = :codpro')
+            query.bindValue(':codpro', int(codpro))
+            if query.exec_():
+                while query.next():
+                    return query.value(0)
+            return nombre
+        except Exception:
+            print(traceback.format_exc())
+
+
     def cargarLineasVenta(codfac):
         """
 
@@ -779,15 +686,11 @@ class Conexion():
         """
         try:
             subtotal = 0.0
-            var.ui.tabVentas.clearContents()
-            index = 0
-            query2 = QtSql.QSqlQuery()
+            index = 1
             query = QtSql.QSqlQuery()
             query.prepare('select codventa,precio,cantidad,codpro from ventas where codfac = :codfac')
 
             query.bindValue(':codfac', int(codfac))
-            invoice.Facturas.cargarLineaVenta(0)
-            row = col = 0
             if query.exec_():
                 while query.next():
                     codventa = query.value(0)
@@ -795,25 +698,23 @@ class Conexion():
                     cantidad = query.value(2)
                     total_venta = round(cantidad*precio,2)
                     subtotal += total_venta
-                    query2.prepare('select producto from productos where codigo = :codpro')
-                    query2.bindValue(':codpro', int(query.value(3)))
+                    pro = query.value(3)
+                    producto = Conexion.getNombreArticulo(int(pro))
                     var.ui.tabVentas.setRowCount(index + 1)
-                    if query2.exec_():
-                        while query2.next():
-                            var.ui.tabVentas.setItem(index, 1, QtWidgets.QTableWidgetItem(str(query2.value(0))))
                     var.ui.tabVentas.setItem(index, 0, QtWidgets.QTableWidgetItem(str(codventa)))
-                    var.ui.tabVentas.setItem(index, col+2, QtWidgets.QTableWidgetItem(str(precio)))
-                    var.ui.tabVentas.setItem(index, col + 3, QtWidgets.QTableWidgetItem(str(cantidad)))
-                    var.ui.tabVentas.setItem(index, col + 4, QtWidgets.QTableWidgetItem(str(total_venta)))
+                    var.ui.tabVentas.setItem(index, 1, QtWidgets.QTableWidgetItem(str(producto)))
+                    var.ui.tabVentas.setItem(index, 2, QtWidgets.QTableWidgetItem(str(precio)))
+                    var.ui.tabVentas.setItem(index, 3, QtWidgets.QTableWidgetItem(str(cantidad)))
+                    var.ui.tabVentas.setItem(index, 4, QtWidgets.QTableWidgetItem(str(total_venta)))
                     var.ui.tabVentas.item(index, 0).setTextAlignment(QtCore.Qt.AlignCenter)
-                    index = index + 1
+                    index += 1
 
             iva = subtotal * .21
             var.ui.lblSubtotalCalculo.setText(str(round(subtotal,2)))
             var.ui.lblIVAcalculo.setText(str(round(iva, 2)))
             var.ui.lblTotalCalculo.setText(str(round(iva+subtotal, 2)))
         except Exception as error:
-            print('error cargar las lineas de factura', error)
+            print('error cargar las lineas de factura', error,traceback.format_exc())
 
 
     def borraVenta(self):
@@ -824,12 +725,14 @@ class Conexion():
         """
         try:
             row = var.ui.tabVentas.selectedItems()
+            if not row:
+                return
             codVenta = row[0].text()
             query = QtSql.QSqlQuery()
             query.prepare('delete from ventas where codventa = :codventa')
             query.bindValue(':codventa', int(codVenta))
             if query.exec_():
-                invoice.Facturas.cargaFac(self)
+                facturas.Facturas.cargaFac(self)
                 msg = QtWidgets.QMessageBox()
                 msg.setWindowTitle('Aviso')
                 msg.setIcon(QtWidgets.QMessageBox.Information)
@@ -837,7 +740,7 @@ class Conexion():
                 msg.exec()
 
         except Exception as error:
-            print('Error al borrar una venta ', error)
+            print('Error al borrar una venta ', error,traceback.format_exc())
 
 
 
@@ -867,7 +770,7 @@ class Conexion():
                     var.ui.lblSubtotal.setTYext('')
                     var.ui.lblTotalCalculo.setText('')
         except Exception as e:
-            print(e)
+            print(e,traceback.format_exc())
 
 
 

@@ -3,17 +3,19 @@
 Funciones gestion clientes
 
 '''
-from datetime import datetime
+import traceback
 import conexion
 from windowaviso import *
 import var
 
 class Clientes():
-
     def validarDNI():
+        """
+
+       Método que comprueba si el dni introducido es válido y señala el resultado en la interfaz gráfica.
+
+       """
         try:
-            global dnivalido
-            dnivalido= False
             dni = var.ui.txtDNI.text()
             var.ui.txtDNI.setText(dni.upper())
             tabla = 'TRWAGMYFPDXBNJZSQVHLCKE'  # letras dni
@@ -30,7 +32,8 @@ class Clientes():
                     var.ui.lblValidoDNI.setStyleSheet('QLabel {color: green;}')
                     var.ui.lblValidoDNI.setText('V')
                     var.ui.txtDNI.setStyleSheet('background-color: white;')
-                    dnivalido = True
+                    return True
+
                 else:
                     var.ui.lblValidoDNI.setStyleSheet('QLabel {color: red;}')
                     var.ui.lblValidoDNI.setText('X')
@@ -39,11 +42,15 @@ class Clientes():
                 var.ui.lblValidoDNI.setStyleSheet('QLabel {color: red;}')
                 var.ui.lblValidoDNI.setText('X')
                 var.ui.txtDNI.setStyleSheet('background-color: pink;')
-        except Exception as error:
-            print('Error en módulo validar DNI', error)
 
+        except Exception as error:
+            print('Error en módulo validar DNI', error,traceback.format_exc())
+        return False
     def cargarFecha(qDate):
         """
+
+        Método que carga la fecha seleccionada en el calendario en el txt de la interfaz.
+        Es formateada para ello.
 
         """
         try:
@@ -55,9 +62,15 @@ class Clientes():
             var.dlgcalendar.hide()
 
         except Exception as error:
-            print('Error cargar fecha en txtFecha', error)
+            print('Error cargar fecha en txtFecha', error,traceback.format_exc())
 
     def letraCapital():
+        """
+
+        Método que formatea los campos de nombre, apellidos y dirección del cliente para que cada palabra inicie en
+        mayúsculas.
+
+        """
         try:
             apel = var.ui.txtApel.text()
             var.ui.txtApel.setText(apel.title())
@@ -67,9 +80,14 @@ class Clientes():
             var.ui.txtDir.setText(dir.title())
 
         except Exception as error:
-            print('Error en capitalizar datos', error)
+            print('Error en capitalizar datos', error,traceback.format_exc())
 
     def limpiaFormCli(self):
+        """
+
+        Método que vacía los distintos campos de la interfaz de clientes para futuras operaciones.
+
+        """
         try:
             cajas = [var.ui.txtDNI, var.ui.txtApel, var.ui.txtNome, var.ui.txtAltaCli,
                      var.ui.txtDir]
@@ -90,9 +108,19 @@ class Clientes():
             #conexion.Conexion.cargarTabCli(self)
 
         except Exception as error:
-            print('Error en Limpiar  clientes', error)
+            print('Error en Limpiar  clientes', error,traceback.format_exc())
 
     def guardaCli(self):
+        """
+
+        Método que gestiona el proceso de guardado de un nuevo cliente en la bbdd y actualiza la interfaz
+        en consecuencia.
+        Llama a Conexion.altaCli y cargaTabCli.
+
+        """
+        if var.ui.lblValidoDNI.text() == 'X':
+            print("el dni no es valido")
+            return
         try:
             #preparamos el registro
             newcli= []  # base de datos
@@ -126,7 +154,7 @@ class Clientes():
             newcli.append(int(envio))
 
             #cargamos la tabla
-            if dnivalido:
+            if Clientes.validarDNI():
                 conexion.Conexion.altaCli(newcli) #graba en la tabla de la bbdd
                 conexion.Conexion.cargarTabCli(self) #recarga la tabla
             else:
@@ -138,9 +166,15 @@ class Clientes():
 
             # código para grabar en la base de datos
         except Exception as error:
-            print('Error en guardar clientes', error)
+            print('Error en guardar clientes', error,traceback.format_exc())
 
     def modifCli(self):
+        """
+
+        Método que guarda las modificaciones realizadas sobre el cliente que se encuentra volcado en la interfaz.
+        Usa Conexion.modifCli y cargaTabCli.
+
+        """
         try:
             modcliente = []
             cliente = [var.ui.txtDNI, var.ui.txtAltaCli, var.ui.txtApel, var.ui.txtNome, var.ui.txtDir]
@@ -169,17 +203,23 @@ class Clientes():
             conexion.Conexion.cargarTabCli(self)  # recarga la tabla
 
         except Exception as error:
-            print('Error modificar cliente', error)
+            print('Error modificar cliente', error,traceback.format_exc())
 
 
     def bajaCli(self):
+        """
+
+        Método que gestiona el borrado de un cliente de la bbdd y actualiza la interfaz en consecuencia.
+        Llama a Conexion.bajaCli y cargaTabCli.
+
+        """
         try:
             dni = var.ui.txtDNI.text()
             conexion.Conexion.bajaCli(dni)
             conexion.Conexion.cargarTabCli(self)
 
         except Exception as error:
-            print('Error en baja cliente', error)
+            print('Error en baja cliente', error,traceback.format_exc())
 
     def cargaCli(self):
         '''
@@ -190,6 +230,7 @@ class Clientes():
             Clientes.limpiaFormCli(self)
             fila = var.ui.tabClientes.selectedItems()  #seleccionamos la fila
             datos = [var.ui.txtDNI, var.ui.txtApel, var.ui.txtNome, var.ui.txtAltaCli ]
+            row = ['']
             if fila:  #cargamos en row todos los datos de la fila
                 row = [dato.text() for dato in fila]
             for i, dato in enumerate(datos):
@@ -203,7 +244,6 @@ class Clientes():
                 var.ui.chkTarjeta.setChecked(True)
             if 'Cargo' in row[4]:
                 var.ui.chkCargocuenta.setChecked(True)
-                #row[0] es el dni
             registro = conexion.Conexion.oneCli(row[0])
             var.ui.txtDir.setText(str(registro[0]))
             var.ui.cmbProv.setCurrentText(str(registro[1]))
@@ -212,7 +252,8 @@ class Clientes():
                 var.ui.rbtHom.setChecked(True)
             elif str(registro[3]) == 'Mujer':
                 var.ui.rbtFem.setChecked(True)
-            var.ui.spinEnvio.setValue(int(registro[4]))
+            if registro[4]:
+                var.ui.spinEnvio.setValue(int(registro[4]))
             if registro[4] == 1:
                 var.ui.lblEnvio.setText('Recogida Cliente')
             elif registro[4] == 2:
@@ -221,14 +262,18 @@ class Clientes():
                 var.ui.lblEnvio.setText('Envío nacional urgente')
             elif registro[4] == 4:
                 var.ui.lblEnvio.setText('Envío interncional')
-
+            Clientes.validarDNI()
             var.ui.txtDNIfac.setText(str(row[0]))
             nombre = row[1] + ', ' + row[2]
             var.ui.lblNomfac.setText(nombre)
         except Exception as error:
-            print('Error en cargar datos de un cliente', error)
+            print('Error en cargar datos de un cliente', error,traceback.format_exc())
 
     def buscaCli(self):
+        '''
+        Busca el cliente por el dni y muestra los datos en las cajas de texto
+        :return:
+        '''
         try:
             dni = var.ui.txtDNI.text()
             registro = conexion.Conexion.buscaClie(dni)
@@ -253,6 +298,6 @@ class Clientes():
                 var.ui.chkCargocuenta.setChecked(True)
 
         except Exception as error:
-            print('error buscar cliente')
+            print('error buscar cliente',traceback.format_exc())
 
 
